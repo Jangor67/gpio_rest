@@ -1,6 +1,10 @@
-This python program aims to allow to control GPIO outputs using a rest interface
+This python program aims to allow to control GPIO outputs using a rest 
+interface.
+It runs on a rather old Raspberry Pi B Rev 2.0 which is running Raspberry Pi OS 
+or Raspbian 11 (Bullseye). *Note that 11 is outdated since it was released 
+some time ago in 2021 and 12 (Bookworm) is already available since 2023.*
 
-Initial setup suggested by ChatGPT ;-)
+Initial setup and python code was suggested by ChatGPT ;-)
 
 # Setup
 
@@ -12,6 +16,9 @@ pip3 install flask RPi.GPIO
 
 # Run
 
+Run both python programs since one is supplying a rest interface and the other
+one builds a gui on top of this rest interface.
+
 ```
 python3 rest.py &
 python3 gui.py &
@@ -19,7 +26,8 @@ python3 gui.py &
 
 # Test
 
-Check and change the used ip number accordingly
+You can test the rest interface first as well as the gui. *Be sure to 
+check and change the used ip number accordingly.*
 
 ```
 curl -X GET "http://192.168.178.63:5000/gpio/status?pin=18"
@@ -27,11 +35,13 @@ curl -X POST -H "Content-Type: application/json" -d '{"pin": 18, "state": 1}' "h
 {"pin":18,"state":1}
 ```
 
-or open url to gui at [port 8000](http://192.168.178.63:8000)
+open the gui using the following [url-to-the-gui](http://192.168.178.63:8000)
 
 # Run as a service
 
-Create a service file
+Create a service file to run it automatically on startup should be done
+like described below. *Note: This is not yet tested.*
+
 ```
 sudo nano /etc/systemd/system/gpio_rest.service
 ```
@@ -52,7 +62,7 @@ User=pi
 WantedBy=multi-user.target
 ```
 
-Startup
+Next Startup
 ```
 sudo systemctl enable gpio_rest
 sudo systemctl start gpio_rest
