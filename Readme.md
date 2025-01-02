@@ -13,16 +13,21 @@ pip3 install flask RPi.GPIO
 # Run
 
 ```
-python3 gpio_rest.py
+python3 rest.py &
+python3 gui.py &
 ```
 
 # Test
 
+Check and change the used ip number accordingly
+
 ```
-curl -X GET "http://<raspberry_pi_ip>:5000/gpio/status?pin=18"
+curl -X GET "http://192.168.178.63:5000/gpio/status?pin=18"
 curl -X POST -H "Content-Type: application/json" -d '{"pin": 18, "state": 1}' "http://192.168.178.63:5000/gpio"
 {"pin":18,"state":1}
 ```
+
+or open url to gui at [port 8000](http://192.168.178.63:8000)
 
 # Run as a service
 
@@ -38,8 +43,8 @@ Description=GPIO REST API
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /path/to/gpio_rest.py
-WorkingDirectory=/path/to
+ExecStart=/usr/bin/python3 /home/pi/gpio_rest/rest.py
+WorkingDirectory=/home/pi
 Restart=always
 User=pi
 
