@@ -10,11 +10,15 @@
         <form action="/send" method="POST">
             <div class="mb-3">
                 <label for="pin" class="form-label">Pin</label>
-                <input type="number" class="form-control" id="pin" name="pin">
+                <input value="{{ pin }}" type="number" class="form-control" id="pin" name="pin">
             </div>
             <div class="mb-3">
                 <label for="state" class="form-label">State</label>
-                <input type="number" class="form-control" id="state" name="state">
+                {% if "{{ status }}" == "1" %}
+                  <input value="0" type="number" class="form-control" id="state" name="state">
+                {% else %}
+                  <input value="1" type="number" class="form-control" id="state" name="state">
+                {% endif %}
             </div>
             <button type="submit" class="btn btn-primary">Send</button>
         </form>

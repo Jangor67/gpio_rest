@@ -1,11 +1,20 @@
 from flask import Flask, render_template, request, send_from_directory
 import requests
+import logging
+import sys
+
+log = logging.getLogger()
+log.setLevel(logging.INFO)
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    context = requests.get('http://127.0.0.1:5000/gpio/status?pin=18')
+    # log.critical("status1:", context)
+    #log.critical("status.json:", context.json().get('status'))
+    return render_template('index.html', **context.json())
 
 @app.route('/favicon.ico')
 def favicon():
@@ -16,8 +25,8 @@ def send():
     pin = request.form['pin']
     state = request.form['state']
     try:
-        res = requests.post('http://192.168.178.63:5000/gpio', json={'pin': int(pin), 'state': int(state)})
-        return f"Response: {res.json()}"
+        res = requests.post('http://127.0.0.1:5000/gpio', json={'pin': int(pin), 'state': int(state)})
+        return render_template('index.html', **res.json())
     except Exception as e:
         return f"Error: {e}"
 

@@ -35,7 +35,7 @@ def gpio_status():
 
     try:
         pin = int(pin)
-        GPIO.setup(pin, GPIO.IN)  # Zet de pin als input om status te lezen
+        # GPIO.setup(pin, GPIO.IN)  # Zet de pin als input om status te lezen
         status = GPIO.input(pin)
         return jsonify({'pin': pin, 'status': status}), 200
     except Exception as e:
