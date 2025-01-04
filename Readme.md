@@ -1,12 +1,43 @@
-This python program aims to allow to control GPIO outputs using a rest 
-interface.
-It runs on a rather old Raspberry Pi B Rev 2.0 which is running Raspberry Pi OS 
-or Raspbian 11 (Bullseye). *Note that 11 is outdated since it was released 
-some time ago in 2021 and 12 (Bookworm) is already available since 2023.*
+This repository contains a few small python programs that aim to allow to control GPIO 
+outputs using a rest interface.
+It it tested and runs on a rather old Raspberry Pi B Rev 2.0 which is running Raspberry Pi OS 
+or Raspbian 11 (Bullseye). *Note that 11 is also a bit outdated since it was released 
+in 2021 and its successor 12 (Bookworm) is already available since 2023.*
 
-Initial setup and python code was suggested by ChatGPT ;-)
+# Wiring
+
+To check it is working I connected a simple relay module.
+
+![Pi wired to a relay board](images/pi_and_relay_module.jpg)
+
+The relay module in this case the [Keyes SR1y](http://www.techydiy.org/keyes-sr1y-relay-module/) 
+came with a pre-wired [JST connector](https://en.wikipedia.org/wiki/JST_connector). 
+*Just ignore the choice of the colors which are not what i would normally choose or expect :blush:*
+Wiring is as follows:
+
+- pin 4 to supply power *(+, red wire)*
+- pin 6 to GND *(-, yellow wire)*
+- pin 12 (GPIO18) to signal *(black wire)*
+
+## General Pi Rev 2 26-pin header information
+
+Some general information on the 26 pin header from the old Pi:
+
+![Pi Rev 2 26-pin header](images/Rev2-GPIO-bold.jpg)
+
+- red ones are +ve power (3V3 or 5V)
+- black ones are -ve ground
+- yellow ones are all dedicated general purpose I/O ports (OK, 18 does PWM as well, but forget that for now).
+
+The rest can all be used as GPIO ports, but do have other functions too. If you need 8 or less ports, it’s best to use the yellow ones because you’re less likely to have a conflict with other things. A quick rundown of what the others are…
+
+- greeny/grey – i2c interface *(Inter-Integrated-Circuit; 2 wire protocol; pin3=SDA, pin5=SCL)*
+- light grey – UART (serial port)
+- orange – SPI *(Serial Peripheral Interface supporting upto 2 devices; pin19=MOSI, pin21=MISO, pin23=SCLK, pin 24=CE0, pin26=CE1; not turned on by default see sudo raspi-config)*
 
 # Setup
+
+Initial setup and python code was suggested by ChatGPT ;-)
 
 ```
 sudo apt update && sudo apt upgrade -y
