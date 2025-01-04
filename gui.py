@@ -11,9 +11,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    context = requests.get('http://127.0.0.1:5000/gpio/status?pin=18')
-    # log.critical("status1:", context)
-    #log.critical("status.json:", context.json().get('status'))
+    context = requests.get('http://127.0.0.1:5000/gpio/state?pin=18')
+    # log.critical("state:", context.json())
     return render_template('index.html', **context.json())
 
 @app.route('/favicon.ico')

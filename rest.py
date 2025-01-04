@@ -22,22 +22,22 @@ def control_gpio():
         pin = int(pin)
         state = int(state)
         GPIO.setup(pin, GPIO.OUT)  # Stel de pin in
-        GPIO.output(pin, state)   # Zet de status
+        GPIO.output(pin, state)   # Zet de state
         return jsonify({'pin': pin, 'state': state}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/gpio/status', methods=['GET'])
-def gpio_status():
+@app.route('/gpio/state', methods=['GET'])
+def gpio_state():
     pin = request.args.get('pin')
     if pin is None:
         return jsonify({'error': 'Pin must be provided'}), 400
 
     try:
         pin = int(pin)
-        # GPIO.setup(pin, GPIO.IN)  # Zet de pin als input om status te lezen
-        status = GPIO.input(pin)
-        return jsonify({'pin': pin, 'status': status}), 200
+        # GPIO.setup(pin, GPIO.IN)  # Zet de pin als input om state te lezen
+        state = GPIO.input(pin)
+        return jsonify({'pin': pin, 'state': state}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
