@@ -39,22 +39,23 @@ open the gui using the following [url-to-the-gui](http://192.168.178.63:8000)
 
 # Run as a service
 
-Create a service file to run it automatically on startup should be done
-like described below. *Note: This is not yet tested.*
+Create the service files to run automatically on startup.
+*Note: you can also use the nano editor if vi is not your favorite one :-)*
 
 ```
-sudo nano /etc/systemd/system/gpio_rest.service
+sudo vi /etc/systemd/system/gpio_rest.service
 ```
 
 Add following content
+
 ```
 [Unit]
 Description=GPIO REST API
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/gpio_rest/rest.py
-WorkingDirectory=/home/pi
+ExecStart=/usr/bin/python3 /home/pi/gpio-rest/rest.py
+WorkingDirectory=/home/pi/gpio-rest
 Restart=always
 User=pi
 
@@ -62,8 +63,46 @@ User=pi
 WantedBy=multi-user.target
 ```
 
-Next Startup
+```
+sudo vi /etc/systemd/system/gpio_gui.service
+```
+
+Add following content
+
+```
+[Unit]
+Description=GPIO GUI
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/gpio-rest/gui.py
+WorkingDirectory=/home/pi/gpio-rest
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Next Enable and Startup these services
+
 ```
 sudo systemctl enable gpio_rest
+sudo systemctl enable gpio_gui
 sudo systemctl start gpio_rest
+sudo systemctl start gpio_gui
+```
+
+Following are some checks and usefull system commands
+
+```
+systemctl status
+systemctl list-units --state=failed
+
+journalctl -fu gpio_gui.service
+
+sudo systemctl daemon-reload
+
+sudo systemctl start gpio_rest
+sudo systemctl start gpio_gui
 ```
